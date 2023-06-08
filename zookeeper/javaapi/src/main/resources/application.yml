@@ -1,0 +1,4 @@
+
+zookeeper:
+  - zookeeper:2181
+#  - zookeeper2:2181

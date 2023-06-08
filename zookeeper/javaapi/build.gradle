@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+}
+
+group 'me.zeroest'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+
+    // https://mvnrepository.com/artifact/org.apache.zookeeper/zookeeper
+    implementation 'org.apache.zookeeper:zookeeper:3.8.1'
+    // https://mvnrepository.com/artifact/org.yaml/snakeyaml
+    implementation 'org.yaml:snakeyaml:2.0'
+}
+
+test {
+    useJUnitPlatform()
+}
