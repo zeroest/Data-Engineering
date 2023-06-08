@@ -12,8 +12,8 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.charset.StandardCharsets;
 
-public class Application {
-    private static final Logger logger = LoggerFactory.getLogger(Application.class);
+public class ApiExampleRunner {
+    private static final Logger logger = LoggerFactory.getLogger(ApiExampleRunner.class);
 
     public static void main(String[] args) {
         try (ZooKeeper zk = new ZookeeperConnection().connect()) {
