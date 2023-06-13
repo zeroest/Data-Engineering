@@ -1,6 +1,7 @@
 
 # HDFS
 
+## [Architecture](https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-hdfs/HdfsDesign.html)
 ## [Design Goal](https://hadoop.apache.org/docs/r1.2.1/hdfs_design.html)
 
 1. Hardware Failure

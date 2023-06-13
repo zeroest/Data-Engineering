@@ -12,3 +12,5 @@ Rather than rely on hardware to deliver high-availability, the library itself is
 3. Efficient: By distributing the data, Hadoop can process it in parallel on the nodes where the data is located. This makes it extremely rapid.
 4. Reliable: Hadoop automatically maintains multiple copies of data and automatically redeploys computing tasks based on failures.
 
+## Reference
+- [하둡 버전별 특징](https://wikidocs.net/26170)

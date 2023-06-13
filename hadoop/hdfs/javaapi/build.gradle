@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+}
+
+group 'me.zeroest'
+version '0.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+
+    // https://mvnrepository.com/artifact/ch.qos.logback/logback-core
+    implementation 'ch.qos.logback:logback-core:1.4.7'
+
+    // https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-client
+    implementation 'org.apache.hadoop:hadoop-client:3.3.5'
+}
+
+test {
+    useJUnitPlatform()
+}
