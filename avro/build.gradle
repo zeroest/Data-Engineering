@@ -1,0 +1,47 @@
+plugins {
+    id 'java'
+    id "de.undercouch.download" version "4.1.1"
+}
+
+group 'me.zeroest.avro'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+
+    implementation 'org.apache.avro:avro:1.11.1'
+    implementation 'org.apache.avro:avro-ipc:1.11.1'
+
+    implementation 'org.apache.kafka:kafka-clients:3.5.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+// download avro schema when build
+// ./gradlew buildWithAvro
+def avroResourceDir = "$rootDir/src/main/avro"
+
+task makeAvroDir() {
+    if (!new File(avroResourceDir).exists()) {
+        mkdir avroResourceDir
+    }
+}
+
+task downloadAvro(type: Download) {
+    dependsOn makeAvroDir
+    src 'https://git-registry/User.avsc'
+    dest avroResourceDir
+}
+
+task buildWithAvro() {
+    dependsOn clean, downloadAvro, build
+    downloadAvro.mustRunAfter clean
+    build.mustRunAfter downloadAvro
+}

@@ -1,0 +1,19 @@
+{
+  "namespace": "me.zeroest.avro",
+  "type": "record",
+  "name": "User",
+  "fields": [
+    {"name": "name", "type": "string"},
+    {"name": "favorite_number",  "type": ["int", "null"]},
+    {"name": "favorite_color", "type": ["string", "null"]}
+  ]
+}
+
+/*
+- namespace: name을 구분짓기 위한 namespace, Java의 경우는 namespace가 Java package로 변경된다.
+- type: avro type(링크)
+- name: 데이터 record 이름, Java의 경우 클래스명이 된다.
+- fields: record를 구성하는 필드들
+  - Primitive Types
+  - Complex Types
+*/
