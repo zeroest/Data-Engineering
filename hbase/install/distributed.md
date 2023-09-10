@@ -148,4 +148,5 @@ bd1: running regionserver, logging to /home/ubuntu/hbase/bin/../logs/hbase-ubunt
 # Reference
 
 https://www.joinc.co.kr/w/man/12/hadoop/hbase/install
+
 https://velog.io/@bbkyoo/HBase-%EA%B5%AC%EC%84%B1-Full-distributed-8yhdsoho

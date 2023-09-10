@@ -1,0 +1,53 @@
+### create chat room
+
+POST http://localhost:8080/chat/room
+Content-Type: application/json
+
+[
+  {
+    "id": "kJqoCrjHzL",
+    "name": "GTDfT",
+    "nickname": "NGcqn"
+  },
+  {
+    "id": "iiFRMHMSOn",
+    "name": "kYwdn",
+    "nickname": "qHPLF"
+  }
+]
+
+### send message
+
+POST http://localhost:8080/chat/message
+Content-Type: application/json
+
+{
+  "chatRoomId": "wjcwPLJNYo",
+  "senderUserId": "kJqoCrjHzL",
+  "content": "안녕하4"
+}
+
+### get messages
+
+GET http://localhost:8080/chat/message
+Content-Type: application/json
+
+{
+  "start": {
+    "chatRoomId": "wjcwPLJNYo",
+    "senderUserId": "kJqoCrjHzL",
+    "content": "안녕하4",
+    "timestamp": 1694363011010
+  },
+  "limit": 1
+}
+
+### get messages latest
+
+GET http://localhost:8080/chat/message/latest
+Content-Type: application/json
+
+{
+  "chatRoomId": "wjcwPLJNYo",
+  "limit": 10
+}

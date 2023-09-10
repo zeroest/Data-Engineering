@@ -1,0 +1,8 @@
+create 'user', 'cf'
+create 'chatroom', 'cf'
+create 'chatmessage', 'cf'
+
+list
+describe 'user'
+describe 'chatroom'
+describe 'chatmessage'
