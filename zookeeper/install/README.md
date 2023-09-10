@@ -40,11 +40,13 @@ vim conf/zoo.cfg
 Start zookeeper
 ```shell
 bin/zkServer.sh start conf/zoo.cfg
+$ZK_HOME/bin/zkServer.sh --config $ZK_HOME/conf start 
 ```
 
 Stop zookeeper
 ```shell
 bin/zkServer.sh stop conf/zoo.cfg
+$ZK_HOME/bin/zkServer.sh --config $ZK_HOME/conf stop
 ```
 
 ## [Clustered](https://zookeeper.apache.org/doc/r3.7.1/zookeeperStarted.html#sc_RunningReplicatedZooKeeper)

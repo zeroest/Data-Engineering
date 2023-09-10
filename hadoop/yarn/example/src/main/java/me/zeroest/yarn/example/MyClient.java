@@ -90,7 +90,7 @@ public class MyClient {
     /**
      * Constructor
      */
-    public MyClient() throws Exception {
+    public MyClient() {
         createYarnClient();
         initOptions();
     }
@@ -259,7 +259,7 @@ public class MyClient {
         return monitorApplication(appId);
     }
 
-    private ContainerLaunchContext getAMContainerSpec(int appId) throws IOException, YarnException {
+    private ContainerLaunchContext getAMContainerSpec(int appId) throws IOException {
         // Set up the container launch context for the application master
         ContainerLaunchContext amContainer = Records.newRecord(ContainerLaunchContext.class);
 
@@ -268,13 +268,12 @@ public class MyClient {
         // set local resources for the application master
         // local files or archives as needed
         // In this scenario, the jar file for the application master is part of the local resources
-        Map<String, LocalResource> localResources = new HashMap<String, LocalResource>();
+        Map<String, LocalResource> localResources = new HashMap<>();
 
         System.out.println("Copy App Master jar from local filesystem and add to local environment");
         // Copy the application master jar to the filesystem
         // Create a local resource to point to the destination jar path
-        addToLocalResources(fs, appMasterJarPath, Constants.AM_JAR_NAME, appId,
-            localResources, null);
+        addToLocalResources(fs, appMasterJarPath, Constants.AM_JAR_NAME, appId, localResources, null);
 
         // Set local resource info into app master container launch context
         amContainer.setLocalResources(localResources);
@@ -284,7 +283,7 @@ public class MyClient {
         amContainer.setEnvironment(getAMEnvironment(localResources, fs));
 
         // Set the necessary command to execute the application master
-        Vector<CharSequence> vargs = new Vector<CharSequence>(30);
+        Vector<CharSequence> vargs = new Vector<>(30);
 
         // Set java executable command
         System.out.println("Setting up app master command");
@@ -292,12 +291,12 @@ public class MyClient {
         // Set Xmx based on am memory size
         vargs.add("-Xmx" + amMemory + "m");
         // Set class name
-        vargs.add("de.example.hadoop.yarn.MyApplicationMaster");
+        vargs.add(MyApplicationMaster.class.getName());
         // Set params for Application Master
-        vargs.add("--container_memory " + String.valueOf(containerMemory));
-        vargs.add("--container_vcores " + String.valueOf(containerVirtualCores));
-        vargs.add("--num_containers " + String.valueOf(numContainers));
-        vargs.add("--priority " + String.valueOf(requestPriority));
+        vargs.add("--container_memory " + containerMemory);
+        vargs.add("--container_vcores " + containerVirtualCores);
+        vargs.add("--num_containers " + numContainers);
+        vargs.add("--priority " + requestPriority);
         vargs.add("1>" + ApplicationConstants.LOG_DIR_EXPANSION_VAR + "/AppMaster.stdout");
         vargs.add("2>" + ApplicationConstants.LOG_DIR_EXPANSION_VAR + "/AppMaster.stderr");
 
@@ -307,8 +306,8 @@ public class MyClient {
             command.append(str).append(" ");
         }
 
-        System.out.println("Completed setting up app master command " + command.toString());
-        List<String> commands = new ArrayList<String>();
+        System.out.println("Completed setting up app master command " + command);
+        List<String> commands = new ArrayList<>();
         commands.add(command.toString());
         amContainer.setCommands(commands);
 
@@ -341,9 +340,8 @@ public class MyClient {
         localResources.put(fileDstPath, scRsrc);
     }
 
-    private Map<String, String> getAMEnvironment(Map<String, LocalResource> localResources
-        , FileSystem fs) throws IOException {
-        Map<String, String> env = new HashMap<String, String>();
+    private Map<String, String> getAMEnvironment(Map<String, LocalResource> localResources, FileSystem fs) throws IOException {
+        Map<String, String> env = new HashMap<>();
 
         // Set ApplicationMaster jar file
         LocalResource appJarResource = localResources.get(Constants.AM_JAR_NAME);

@@ -2,11 +2,13 @@
 
 # build 를 수행한 뒤, jar 를 EMR primary node 로 scp 를 통해 복사한다.
 scp -i $your_key $your_jar_path hadoop@$your_emr_primary_ec2_public_dns:~/example/jars/.
+scp $your_jar_path bd01:~/yarn/
 
 # EMR Primary node 에 접속한 후 다음 명령어를 수행한다.
 # -jar 부터는 코드에서 해당 파라미터를 받을 수 있도록 구현한 로직때문에 넣는 옵션이다.
 # yarn jar hadoop-yarn-app-1.0-SNAPSHOT.jar de.example.hadoop.yarn.MyClient -jar hadoop-yarn-app-1.0-SNAPSHOT.jar
 yarn jar $your_jar $yarn_client_mainclass $args
+~/hadoop/bin/yarn jar yarn-example-0.0.0.jar me.zeroest.yarn.example.MyClient -jar yarn-example-0.0.0.jar  -num_containers=2
 
 # log 확인
 #

@@ -65,11 +65,16 @@ vim $HADOOP_HOME/etc/hadoop/hadoop-env.sh
 
 core-site.xml  
 기본 파일 시스템 이름 설정
+[zookeeper 설정](https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-hdfs/HDFSHighAvailabilityWithQJM.html) - 하둡의 고가용성을 위한 설정
 ```xml
 <configuration>
     <property>
         <name>fs.defaultFS</name>
          <value>hdfs://bd1:9000</value>
+    </property>
+    <property>
+        <name>ha.zookeeper.quorum</name>
+        <value>bd1:2181,bd2:2181,bd3:2181</value>
     </property>
 </configuration>
 ```

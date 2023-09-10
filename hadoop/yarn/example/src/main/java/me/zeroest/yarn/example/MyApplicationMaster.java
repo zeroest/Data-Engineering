@@ -3,6 +3,7 @@ package me.zeroest.yarn.example;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -75,7 +76,7 @@ public class MyApplicationMaster {
      * @throws org.apache.commons.cli.ParseException
      * @throws java.io.IOException
      */
-    public boolean init(String[] args) throws Exception {
+    public boolean init(String[] args) throws ParseException {
         Options opts = new Options();
         opts.addOption("app_attempt_id", true,
             "App Attempt ID. Not to be used unless for testing purposes");
