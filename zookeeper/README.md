@@ -69,5 +69,7 @@ znode의 uniqueness를 보장 설정한 노드네임 뒤로 시퀀셜한 숫자�
 > - numChildren  
 > The number of children of this znode.
 
+## [ZooKeeper Recipes and Solutions](https://zookeeper.apache.org/doc/current/recipes.html#sc_leaderElection)
+
 ## [Install](./install/README.md)
 ## [CLI](./cli/README.md)
