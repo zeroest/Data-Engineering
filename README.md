@@ -16,6 +16,14 @@ Data engineers primarily focus on
 
 [Difference between Hard real time and Soft real time system](https://www.geeksforgeeks.org/difference-between-hard-real-time-and-soft-real-time-system/)
 
+## [Data Streaming Architecture: Components, Process, & Diagrams](https://estuary.dev/data-streaming-architecture/)
+
+### ETL Pipeline
+
+- Extract
+- Transform
+- Load
+
 ### The Data Streaming Process Explained
 
 1. Data Production
@@ -33,13 +41,10 @@ C. Data Storage
 D. Data Ingestion Layer
 E. Data Visualization & Reporting Tools
 
-### erchitecture
+### Architecture
 
 Lambda architecture
 - batch, speed, serving layer
 
 Kappa architecture, Delta architecture
 - speed, serving layer
-
-[Data Streaming Architecture: Components, Process, & Diagrams](https://estuary.dev/data-streaming-architecture/)
-
