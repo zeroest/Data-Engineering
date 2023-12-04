@@ -11,7 +11,7 @@
 
 기본 memory 로 동작
 
-## Memory Backpressure Config
+## [Memory Backpressure Config](https://docs.fluentbit.io/manual/administration/backpressure)
 
 > Please note that Mem_Buf_Limit only applies when storage.type is set to the default value of memory.
 
