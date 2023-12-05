@@ -1,3 +1,4 @@
+
 # [Monitoring](https://docs.fluentbit.io/manual/administration/monitoring)
 
 INPUT 옵션으로 cpu, mem 설정시 추가적으로 CPU, Memory 메트릭도 함께 수집 가능
@@ -83,4 +84,22 @@ fi
 # *  *  *  *  * user-name  command to be executed
 
 0 1 * * * zero sh /path/to/flb_log_rotate.sh
+```
+
+# [Hot Reload](https://docs.fluentbit.io/manual/administration/hot-reload)
+
+```
+[SERVICE]
+    HTTP_Server  On
+    HTTP_Listen  0.0.0.0
+    HTTP_PORT    2020
+    Hot_Reload   On
+```
+
+[SERVICE] `hot_reload Off (default)`
+
+## Reload via HTTP
+
+```bash
+curl -X POST -d {} http://localhost:2020/api/v2/reload
 ```
