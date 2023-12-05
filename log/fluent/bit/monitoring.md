@@ -1,12 +1,55 @@
-
 # [Monitoring](https://docs.fluentbit.io/manual/administration/monitoring)
 
+INPUT 옵션으로 cpu, mem 설정시 추가적으로 CPU, Memory 메트릭도 함께 수집 가능
+
+```
+[SERVICE]
+    HTTP_Server  On
+    HTTP_Listen  0.0.0.0
+    HTTP_PORT    2020
+
+[INPUT]
+    Name  cpu
+    Alias cpu.${HOSTNAME}
+
+[INPUT]
+    Name  mem
+    Alias mem.${HOSTNAME}
+```
+
+## Health Check
+
+[SERVICE] `health_check off (default)`
+
+- Health check 기능 활성화 여부
+
+[SERVICE] `hc_errors_count 5 (default)`  
+[SERVICE] `hc_retry_failure_count 5 (default) `  
+[SERVICE] `hc_period 60 (default)`  
+
+```
+health status 
+    = (HC_Errors_Count > HC_Errors_Count config value) 
+    || (HC_Retry_Failure_Count > HC_Retry_Failure_Count config value) 
+    IN the HC_Period interval
+```
+
+- HTTP status 200 and "ok" in response to healthy status
+- HTTP status 500 and "error" in response for unhealthy status
 
 ## Grafana Dashboard
+
+| URI                        | Description                                                                    | Data Format           |
+|----------------------------|--------------------------------------------------------------------------------|-----------------------|
+| /api/v1/metrics/prometheus | Internal metrics per loaded plugin ready to be consumed by a Prometheus Server | Prometheus Text 0.0.4 |
 
 https://github.com/fluent/fluent-bit-docs/tree/8172a24d278539a1420036a9434e9f56d987a040/monitoring
 
 ## ETC
+
+[SERVICE] `log_file ${log_file_path}`
+
+- Fluent-bit 로그 파일 설정
 
 https://github.com/fluent/fluent-bit/pull/1890
 
