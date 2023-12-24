@@ -1,0 +1,21 @@
+syntax = "proto3"; // 서비스 정의는 사용하는 프로토콜 버퍼 버전(proto3)을 지정하는 것으로 시작한다
+
+import "google/protobuf/wrappers.proto"; // 다른 프로토콜 버퍼 정의를 가져올 수 있다
+
+package me.zeroest.grpc.ecommerce.v1; // 패키지 이름은 프로토콜 메시지 타입 사이의 이름 충돌을 방지하는데 사용, 코드 생성에도 사용한다
+
+service ProductInfo { // 서비스의 서비스 인터페이스를 정의한다
+  rpc addProduct(Product) returns (ProductID); // ProductID를 응답으로 반환하는 Product 정보 추가 원격 메서드
+  rpc getProduct(ProductID) returns (Product); // ProductID를 기반으로 Product 정보를 가져오는 원격 메서드
+}
+
+message Product { // Product 정보의 메세지 형식/타입 정의
+  string id = 1; // 메시지 바이너리 형식에서 필드를 식별하는 데 사용하는 고유 필드 번호를 갖는 제품 ID 필드(이름-값)
+  string name = 2;
+  string description = 3;
+  float price = 4;
+}
+
+message ProductID { // ProductID의 메시지 형식/타입 정의
+  string  value = 1;
+}

@@ -1,0 +1,83 @@
+apply plugin: 'java'
+apply plugin: 'com.google.protobuf'
+
+repositories {
+    mavenCentral()
+}
+
+def grpcVersion = '1.39.0' // gRPC 자바 라이브러리 버전
+def protobufVersion = '3.17.2'
+
+dependencies {
+    implementation "io.grpc:grpc-netty:${grpcVersion}"
+    implementation "io.grpc:grpc-protobuf:${grpcVersion}"
+    implementation "io.grpc:grpc-stub:${grpcVersion}"
+    implementation 'com.google.protobuf:protobuf-java:3.17.2'
+    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies { // 프로젝트에서 사용하는 그래들 프로토버프 플러그인 버전
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.17'
+    }
+}
+
+protobuf { // 프로토버프 플러그인에서 프로토버프 컴파일러 버전과 프로토버프 자바 실행 파일 버전을 지정
+    // M1 MacOS
+    // https://sungjk.github.io/2022/01/22/m1-gradle-grpc.html
+    protoc {
+//        artifact = 'com.google.protobuf:protoc:3.17.2'
+        if (project.hasProperty('protoc_platform')) {
+            artifact = "com.google.protobuf:protoc:${protobufVersion}:${protoc_platform}"
+        } else {
+            artifact = "com.google.protobuf:protoc:${protobufVersion}"
+        }
+    }
+    plugins {
+        grpc {
+//            artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
+            if (project.hasProperty('protoc_platform')) {
+                artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}:${protoc_platform}"
+            } else {
+                artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
+            }
+        }
+    }
+    generateProtoTasks {
+        all()*.plugins {
+            grpc {}
+        }
+    }
+}
+
+// Inform IDEs like IntelliJ IDEA, Eclipse or NetBeans about the generated code.
+sourceSets { // 생성되는 코드 디렉터리를 인텔리제이 IDEA 에 지정하기 위한 정보
+    main {
+        java {
+            srcDirs 'build/generated/source/proto/main/grpc'
+            srcDirs 'build/generated/source/proto/main/java'
+        }
+    }
+}
+
+/*
+jar { // 어플리케이션을 실행할 때 사용할 기본 클래스를 지정
+    manifest {
+        attributes "Main-Class": "me.zeroest.grpc.Main"
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+*/
+
+// Generate IntelliJ IDEA's .idea & .iml project files
+apply plugin: 'idea'
+
+// Provide convenience executables for trying out the examples.
+apply plugin: 'application'
+
+startScripts.enabled = false
