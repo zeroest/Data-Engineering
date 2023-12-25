@@ -45,6 +45,37 @@ public final class OrderManagementGrpc {
     return getGetOrderMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<com.google.protobuf.StringValue,
+      me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order> getSearchOrdersMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "searchOrders",
+      requestType = com.google.protobuf.StringValue.class,
+      responseType = me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+  public static io.grpc.MethodDescriptor<com.google.protobuf.StringValue,
+      me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order> getSearchOrdersMethod() {
+    io.grpc.MethodDescriptor<com.google.protobuf.StringValue, me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order> getSearchOrdersMethod;
+    if ((getSearchOrdersMethod = OrderManagementGrpc.getSearchOrdersMethod) == null) {
+      synchronized (OrderManagementGrpc.class) {
+        if ((getSearchOrdersMethod = OrderManagementGrpc.getSearchOrdersMethod) == null) {
+          OrderManagementGrpc.getSearchOrdersMethod = getSearchOrdersMethod =
+              io.grpc.MethodDescriptor.<com.google.protobuf.StringValue, me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "searchOrders"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.google.protobuf.StringValue.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order.getDefaultInstance()))
+              .setSchemaDescriptor(new OrderManagementMethodDescriptorSupplier("searchOrders"))
+              .build();
+        }
+      }
+    }
+    return getSearchOrdersMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -103,6 +134,16 @@ public final class OrderManagementGrpc {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetOrderMethod(), responseObserver);
     }
 
+    /**
+     * <pre>
+     * Order의 stream메세지를 반환해 서버 스트리밍을 정의한다
+     * </pre>
+     */
+    public void searchOrders(com.google.protobuf.StringValue request,
+        io.grpc.stub.StreamObserver<me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getSearchOrdersMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -112,6 +153,13 @@ public final class OrderManagementGrpc {
                 com.google.protobuf.StringValue,
                 me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order>(
                   this, METHODID_GET_ORDER)))
+          .addMethod(
+            getSearchOrdersMethod(),
+            io.grpc.stub.ServerCalls.asyncServerStreamingCall(
+              new MethodHandlers<
+                com.google.protobuf.StringValue,
+                me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order>(
+                  this, METHODID_SEARCH_ORDERS)))
           .build();
     }
   }
@@ -140,6 +188,17 @@ public final class OrderManagementGrpc {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetOrderMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     * <pre>
+     * Order의 stream메세지를 반환해 서버 스트리밍을 정의한다
+     * </pre>
+     */
+    public void searchOrders(com.google.protobuf.StringValue request,
+        io.grpc.stub.StreamObserver<me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncServerStreamingCall(
+          getChannel().newCall(getSearchOrdersMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -164,6 +223,17 @@ public final class OrderManagementGrpc {
     public me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order getOrder(com.google.protobuf.StringValue request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetOrderMethod(), getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
+     * Order의 stream메세지를 반환해 서버 스트리밍을 정의한다
+     * </pre>
+     */
+    public java.util.Iterator<me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order> searchOrders(
+        com.google.protobuf.StringValue request) {
+      return io.grpc.stub.ClientCalls.blockingServerStreamingCall(
+          getChannel(), getSearchOrdersMethod(), getCallOptions(), request);
     }
   }
 
@@ -194,6 +264,7 @@ public final class OrderManagementGrpc {
   }
 
   private static final int METHODID_GET_ORDER = 0;
+  private static final int METHODID_SEARCH_ORDERS = 1;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -214,6 +285,10 @@ public final class OrderManagementGrpc {
       switch (methodId) {
         case METHODID_GET_ORDER:
           serviceImpl.getOrder((com.google.protobuf.StringValue) request,
+              (io.grpc.stub.StreamObserver<me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order>) responseObserver);
+          break;
+        case METHODID_SEARCH_ORDERS:
+          serviceImpl.searchOrders((com.google.protobuf.StringValue) request,
               (io.grpc.stub.StreamObserver<me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order>) responseObserver);
           break;
         default:
@@ -278,6 +353,7 @@ public final class OrderManagementGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new OrderManagementFileDescriptorSupplier())
               .addMethod(getGetOrderMethod())
+              .addMethod(getSearchOrdersMethod())
               .build();
         }
       }

@@ -6,6 +6,7 @@ package me.zeroest.grpc.ecommerce.v1;
 
 service OrderManagement {
   rpc getOrder(google.protobuf.StringValue) returns (Order); // 주문을 조회하기 위한 원격 메서드
+  rpc searchOrders(google.protobuf.StringValue) returns (stream Order); // Order의 stream메세지를 반환해 서버 스트리밍을 정의한다
 }
 
 message Order { // Order 타입 정의

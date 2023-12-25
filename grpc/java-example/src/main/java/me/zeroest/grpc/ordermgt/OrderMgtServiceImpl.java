@@ -69,4 +69,32 @@ public class OrderMgtServiceImpl extends OrderManagementGrpc.OrderManagementImpl
         // responseObserver.onError();
     }
 
+    // Server Streaming
+    @Override
+    public void searchOrders(StringValue request, StreamObserver<OrderManagementOuterClass.Order> responseObserver) {
+
+        for (Map.Entry<String, OrderManagementOuterClass.Order> orderEntry : orderMap.entrySet()) {
+            sleep(1000);
+
+            OrderManagementOuterClass.Order order = orderEntry.getValue();
+            int itemsCount = order.getItemsCount();
+            for (int index = 0; index < itemsCount; index++) {
+                String item = order.getItems(index);
+                if (item.contains(request.getValue())) {
+                    logger.info("Item found " + item);
+                    responseObserver.onNext(order);
+                    break;
+                }
+            }
+        }
+        responseObserver.onCompleted();
+    }
+
+    private static void sleep(int millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
