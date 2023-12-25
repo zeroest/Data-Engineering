@@ -1,5 +1,5 @@
 
-[gRPC Up and Running](https://grpc-up-and-running.github.io/)
+# [gRPC Up & Running](https://grpc-up-and-running.github.io/)
 
 ## 서비스 정의
 

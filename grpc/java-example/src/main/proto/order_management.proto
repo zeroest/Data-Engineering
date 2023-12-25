@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+import "google/protobuf/wrappers.proto"; // 이 패키지를 사용해 StringValue와 같은 잘 알려진(well-known) 타입을 활용
+
+package me.zeroest.grpc.ecommerce.v1;
+
+service OrderManagement {
+  rpc getOrder(google.protobuf.StringValue) returns (Order); // 주문을 조회하기 위한 원격 메서드
+}
+
+message Order { // Order 타입 정의
+  string id = 1;
+  repeated string items = 2; // repeated는 메세지에서 0을 포함해 한 번 이상 반복하는 필드를 나타내는 데 사용. 여기서 하나의 주문 메세지에는 여러 아이템이 있을 수 있다
+  string description = 3;
+  float price = 4;
+  string destination = 5;
+}

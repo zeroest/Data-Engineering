@@ -1,4 +1,4 @@
-package me.zeroest.grpc;
+package me.zeroest.grpc.product;
 
 import io.grpc.Status;
 import io.grpc.StatusException;
