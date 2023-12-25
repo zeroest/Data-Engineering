@@ -1268,12 +1268,14 @@ public final class OrderManagementOuterClass {
       "c.ecommerce.v1\032\036google/protobuf/wrappers" +
       ".proto\"[\n\005Order\022\n\n\002id\030\001 \001(\t\022\r\n\005items\030\002 \003" +
       "(\t\022\023\n\013description\030\003 \001(\t\022\r\n\005price\030\004 \001(\002\022\023" +
-      "\n\013destination\030\005 \001(\t2\265\001\n\017OrderManagement\022" +
+      "\n\013destination\030\005 \001(\t2\212\002\n\017OrderManagement\022" +
       "M\n\010getOrder\022\034.google.protobuf.StringValu" +
       "e\032#.me.zeroest.grpc.ecommerce.v1.Order\022S" +
       "\n\014searchOrders\022\034.google.protobuf.StringV" +
       "alue\032#.me.zeroest.grpc.ecommerce.v1.Orde" +
-      "r0\001b\006proto3"
+      "r0\001\022S\n\014updateOrders\022#.me.zeroest.grpc.ec" +
+      "ommerce.v1.Order\032\034.google.protobuf.Strin" +
+      "gValue(\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

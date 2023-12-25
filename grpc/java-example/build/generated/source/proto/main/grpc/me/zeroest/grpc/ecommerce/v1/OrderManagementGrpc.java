@@ -76,6 +76,37 @@ public final class OrderManagementGrpc {
     return getSearchOrdersMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order,
+      com.google.protobuf.StringValue> getUpdateOrdersMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "updateOrders",
+      requestType = me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order.class,
+      responseType = com.google.protobuf.StringValue.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
+  public static io.grpc.MethodDescriptor<me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order,
+      com.google.protobuf.StringValue> getUpdateOrdersMethod() {
+    io.grpc.MethodDescriptor<me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order, com.google.protobuf.StringValue> getUpdateOrdersMethod;
+    if ((getUpdateOrdersMethod = OrderManagementGrpc.getUpdateOrdersMethod) == null) {
+      synchronized (OrderManagementGrpc.class) {
+        if ((getUpdateOrdersMethod = OrderManagementGrpc.getUpdateOrdersMethod) == null) {
+          OrderManagementGrpc.getUpdateOrdersMethod = getUpdateOrdersMethod =
+              io.grpc.MethodDescriptor.<me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order, com.google.protobuf.StringValue>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.CLIENT_STREAMING)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "updateOrders"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.google.protobuf.StringValue.getDefaultInstance()))
+              .setSchemaDescriptor(new OrderManagementMethodDescriptorSupplier("updateOrders"))
+              .build();
+        }
+      }
+    }
+    return getUpdateOrdersMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -144,6 +175,13 @@ public final class OrderManagementGrpc {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getSearchOrdersMethod(), responseObserver);
     }
 
+    /**
+     */
+    public io.grpc.stub.StreamObserver<me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order> updateOrders(
+        io.grpc.stub.StreamObserver<com.google.protobuf.StringValue> responseObserver) {
+      return io.grpc.stub.ServerCalls.asyncUnimplementedStreamingCall(getUpdateOrdersMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -160,6 +198,13 @@ public final class OrderManagementGrpc {
                 com.google.protobuf.StringValue,
                 me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order>(
                   this, METHODID_SEARCH_ORDERS)))
+          .addMethod(
+            getUpdateOrdersMethod(),
+            io.grpc.stub.ServerCalls.asyncClientStreamingCall(
+              new MethodHandlers<
+                me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order,
+                com.google.protobuf.StringValue>(
+                  this, METHODID_UPDATE_ORDERS)))
           .build();
     }
   }
@@ -198,6 +243,14 @@ public final class OrderManagementGrpc {
         io.grpc.stub.StreamObserver<me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order> responseObserver) {
       io.grpc.stub.ClientCalls.asyncServerStreamingCall(
           getChannel().newCall(getSearchOrdersMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public io.grpc.stub.StreamObserver<me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order> updateOrders(
+        io.grpc.stub.StreamObserver<com.google.protobuf.StringValue> responseObserver) {
+      return io.grpc.stub.ClientCalls.asyncClientStreamingCall(
+          getChannel().newCall(getUpdateOrdersMethod(), getCallOptions()), responseObserver);
     }
   }
 
@@ -265,6 +318,7 @@ public final class OrderManagementGrpc {
 
   private static final int METHODID_GET_ORDER = 0;
   private static final int METHODID_SEARCH_ORDERS = 1;
+  private static final int METHODID_UPDATE_ORDERS = 2;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -301,6 +355,9 @@ public final class OrderManagementGrpc {
     public io.grpc.stub.StreamObserver<Req> invoke(
         io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
+        case METHODID_UPDATE_ORDERS:
+          return (io.grpc.stub.StreamObserver<Req>) serviceImpl.updateOrders(
+              (io.grpc.stub.StreamObserver<com.google.protobuf.StringValue>) responseObserver);
         default:
           throw new AssertionError();
       }
@@ -354,6 +411,7 @@ public final class OrderManagementGrpc {
               .setSchemaDescriptor(new OrderManagementFileDescriptorSupplier())
               .addMethod(getGetOrderMethod())
               .addMethod(getSearchOrdersMethod())
+              .addMethod(getUpdateOrdersMethod())
               .build();
         }
       }

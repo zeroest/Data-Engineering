@@ -90,6 +90,38 @@ public class OrderMgtServiceImpl extends OrderManagementGrpc.OrderManagementImpl
         responseObserver.onCompleted();
     }
 
+    // Client Streaming
+    @Override
+    public StreamObserver<OrderManagementOuterClass.Order> updateOrders(StreamObserver<StringValue> responseObserver) {
+        return new StreamObserver<OrderManagementOuterClass.Order>() {
+
+            StringBuilder updatedOrderStrBuilder = new StringBuilder().append("Updated Order IDs : ");
+
+            @Override
+            public void onNext(OrderManagementOuterClass.Order value) {
+                if (value != null) {
+                    orderMap.put(value.getId(), value);
+                    updatedOrderStrBuilder.append(value.getId()).append(", ");
+                    logger.info("Order ID : " + value.getId() + " - Updated");
+                }
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                logger.info("Order ID update error " + t.getMessage());
+            }
+
+            @Override
+            public void onCompleted() {
+                logger.info("Update orders - Completed");
+                StringValue updatedOrders = StringValue.newBuilder().setValue(updatedOrderStrBuilder.toString()).build();
+                responseObserver.onNext(updatedOrders);
+                responseObserver.onCompleted();
+            }
+
+        };
+    }
+
     private static void sleep(int millis) {
         try {
             Thread.sleep(millis);
@@ -97,4 +129,5 @@ public class OrderMgtServiceImpl extends OrderManagementGrpc.OrderManagementImpl
             throw new RuntimeException(e);
         }
     }
+
 }
