@@ -26,7 +26,8 @@ public class OrderMgtClient {
 
 //        getOrder(stub);
 //        searchOrders(stub);
-        updateOrders(asyncStub);
+//        invokeUpdateOrders(asyncStub);
+        invokeProcessOrders(asyncStub);
     }
 
     private static void getOrder(OrderManagementGrpc.OrderManagementBlockingStub stub) {
@@ -45,7 +46,7 @@ public class OrderMgtClient {
         }
     }
 
-    private static void updateOrders(OrderManagementGrpc.OrderManagementStub asyncStub) {
+    private static void invokeUpdateOrders(OrderManagementGrpc.OrderManagementStub asyncStub) {
 
         OrderManagementOuterClass.Order updOrder1 = OrderManagementOuterClass.Order.newBuilder()
                 .setId("102")
@@ -111,6 +112,51 @@ public class OrderMgtClient {
             e.printStackTrace();
         }
 
+    }
+
+    private static void invokeProcessOrders(OrderManagementGrpc.OrderManagementStub asyncStub) {
+
+        final CountDownLatch finishLatch = new CountDownLatch(1);
+
+        StreamObserver<OrderManagementOuterClass.CombinedShipment> orderProcessResponseObserver = new StreamObserver<OrderManagementOuterClass.CombinedShipment>() {
+            @Override
+            public void onNext(OrderManagementOuterClass.CombinedShipment value) {
+                logger.info("Combined Shipment : " + value.getId() + " : " + value.getOrdersListList());
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                logger.info("Order ID process error " + t.getMessage());
+            }
+
+            @Override
+            public void onCompleted() {
+                logger.info("Order Processing completed!");
+                finishLatch.countDown();
+            }
+        };
+
+        StreamObserver<StringValue> orderProcessRequestObserver =  asyncStub.processOrders(orderProcessResponseObserver);
+
+        orderProcessRequestObserver.onNext(StringValue.newBuilder().setValue("102").build());
+        orderProcessRequestObserver.onNext(StringValue.newBuilder().setValue("103").build());
+        orderProcessRequestObserver.onNext(StringValue.newBuilder().setValue("104").build());
+        orderProcessRequestObserver.onNext(StringValue.newBuilder().setValue("101").build());
+
+        if (finishLatch.getCount() == 0) {
+            logger.warning("RPC completed or errored before we finished sending.");
+            return;
+        }
+        orderProcessRequestObserver.onCompleted();
+
+
+        try {
+            if (!finishLatch.await(120, TimeUnit.SECONDS)) {
+                logger.warning("FAILED : Process orders cannot finish within 60 seconds");
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void sleep(int millis) {
