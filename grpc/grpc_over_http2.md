@@ -59,3 +59,50 @@ authorization = Bearer xxxxxx    // 선택적 메타데이터 정의. authorizat
 DATA (flags = END_STREAM)
 <Length-Prefixed Message>
 ```
+
+## 응답 메세지
+
+![Sequence of message elements in a response message](./img/sequence_of_message_elements_in_a_response_message.png)
+
+응답 메세지는 `응답 헤더`, `길이-접두사 지정 메세지`, `트레일러(trailer)` 세 가지 주요 요소로 구성된다
+
+클라이언트에 응답으로 보낼 길이-접두사 지정 메세지가 없는 경우 응답 메세지는 헤더와 트레일러로만 구성된다
+
+Example
+
+```
+HEADERS (flags = END_HEADERS)
+:status = 200                    // HTTP 요청에 대한 상태 코드를 나타낸다
+grpc-encoding = gzip             // 메세지 압축 유형을 정의. 가능한 값은 identity, gzip, deflate, snappy, {custom}이다
+content-type = application/grpc  // 컨텐츠 타입 정의. gRPC의 경우 콘텐츠 타입은 application/grpc로 시작해야한다.
+```
+
+서버가 응답 헤더를 보내면 `길이-접두사 지정 메세지`가 해당 호출의 HTTP/2 데이터 프레임으로 전송된다  
+요청 메세지와 같이 `길이-접두사 지정 메세지`가 하나의 데이터 프레임으로 보낼 수 없으면 여러 데이터 프레임으로 나눠 보내진다  
+요청 메세지와는 달리 END_STREAM 플래그는 데이터 프레임과 함께 전송되지 않으며 트레일러라는 별도의 헤더로 전송된다  
+
+```
+DATA
+<Length-Prefixed Message>
+```
+
+트레일러는 클라이언트에게 응답 메세지 전송이 완료되었음을 알리고자 사용  
+추가로 요청 [상태 코드](https://github.com/grpc/grpc/blob/master/doc/statuscodes.md)와 상태 메세지도 포함될 수 있다  
+
+```
+HEADERS (flags = END_STREAM, END_HEADERS)
+grpc-status = 0 # OK   // gRPC 상태 코드를 정의. gRPC는 정의된 상태 코드를 사용
+grpc-message = xxxxxx  // 에러의 설명 정의. 선택 사항으로, 요청 처리에 에러가 있는 경우에만 지정된다
+```
+
+> 트레일러는 HTTP/2 헤더 프레임으로도 제공되지만 응답 메세지의 끝으로 전송된다  
+> 트레일러 스트림 헤더에 END_STREAM 플래그를 설정해 응답 스트림의 끝을 나타내며 grpc-status와 grpc-message 헤더가 포함되어 있다  
+
+특정 시나리오에서 요청 호출에 즉각적인 실패가 있을 수 있는데, 이 경우 서버는 데이터 프레임 없이 응답을 보낸다  
+따라서 서버는 트레일러만 응답으로 보내는데, 이 트레일러는 HTTP/2 헤더 프레임으로도 전송되고 END_STREAM 플래그도 포함한다  
+추가로 다음 헤더가 트레일러로 포함되어 있다  
+
+- HTTP-Status    -> :status
+- Content-Type   -> content-type
+- Status         -> grpc-status
+- Status-Message -> grpc-message
