@@ -6,7 +6,8 @@
 
 ## Unary RPC
 
-![Unary](./img/unary.png)
+![message_flow-simple_rpc.png
+](./img/message_flow-simple_rpc.png)
 
 단순 RPC (단일 RPC)
 
@@ -16,7 +17,8 @@
 
 ## Server Streaming RPC
 
-![Server Streaming RPC](./img/server_stream.png)
+![message_flow-server_streaming_rpc.png
+](./img/message_flow-server_streaming_rpc.png)
 
 서버 스트리밍 RPC
 
@@ -28,7 +30,8 @@
 
 ## Client Streaming RPC
 
-![Client Streaming RPC](./img/client_stream.png)
+![message_flow-client_streaming_rpc.png
+](./img/message_flow-client_streaming_rpc.png)
 
 클라이언트 스트리밍 RPC
 
@@ -40,7 +43,8 @@
 
 ## Bidirectional Streaming RPC
 
-![Bidirectional Streaming RPC](./img/bidirectional_stream.png)
+![message_flow-bidirectional_streaming_rpc.png
+](./img/message_flow-bidirectional_streaming_rpc.png)
 
 양방향 스트리밍 RPC
 

@@ -106,3 +106,55 @@ grpc-message = xxxxxx  // 에러의 설명 정의. 선택 사항으로, 요청 �
 - Content-Type   -> content-type
 - Status         -> grpc-status
 - Status-Message -> grpc-message
+
+## gRPC 통신 패턴에서의 메세지 흐름 이해
+
+Simple RPC, Server-streaming RPC, Client-streaming RPC, and Bidirectional-streaming RPC  
+각 패턴의 전송 레벨 작동 이해
+
+### Simple RPC 
+
+![message_flow-simple_rpc.png
+](./img/message_flow-simple_rpc.png)
+
+클라이언트
+- 요청 메세지 - 헤더와 하나 이상의 데이터 프레임에 걸쳐 있을 수 있는 길이-접두사 지정 메세지가 포함된다
+- 클라이언트 측에서 연결 절반 종료(half-close connection)하려면 요청 메세지의 끝에 스트림 종료(EOS) 플래그를 추가한다  
+  여기서 half-close connection'은 클라이언트 측에서 연결을 닫아 더 이상 서버로 메세지를 보낼 수는 없지만 여전히 서버에서 들어오는 메세지는 수신할 수 있음을 의미한다  
+
+서버
+- 서버는 전체 메세지를 받은 후에만 응답 메세지를 만드는데, 응답 메세지에는 헤더 프레임과 길이-접두사 지정 메세지가 포함된다
+- 서버가 상태 정보와 함께 트레일러 헤더를 보내면 통신이 종료된다
+
+### Server-streaming RPC 
+
+![message_flow-server_streaming_rpc.png
+](./img/message_flow-server_streaming_rpc.png)
+
+서버
+- 서버는 하나의 응답 메세지를 클라이언트에 보내지 않고 여러 메세지를 보낸다
+- 서버는 전체 요청 메세지를 수신 할 때까지 기다렸다가 응답 헤더와 여러 길이-접두사 지정 메세지를 보낸다
+- 서버가 상태 정보와 함께 후행 헤더를 보내면 통신이 종료된다
+
+### Client-streaming RPC 
+
+![message_flow-client_streaming_rpc.png
+](./img/message_flow-client_streaming_rpc.png)
+
+클라이언트
+- 클라이언트는 먼저 헤더 프레임을 전송해 서버와 연결을 설정한다
+- 연결이 설정되면 클라이언트는 여러 길이-접두사 지정 메세지를 데이터 프레임으로 서버에 보낸다
+- 최종적으로 클라이언트는 마지막 데이터 프레임에 EOS 플래그를 전송해 연결 절반을 닫는다
+
+서버
+- 서버는 클라이언트에서 받은 메세지를 읽는다
+- 모든 메세지를 받으면 서버는 후행 헤더와 함께 응답 메세지를 보내므로 연결을 닫는다
+
+### Bidirectional-streaming RPC  
+
+![message_flow-bidirectional_streaming_rpc.png
+](./img/message_flow-bidirectional_streaming_rpc.png)
+
+- 클라이언트가 헤더 프레임을 전송해 연결을 설정
+- 연결이 설정되면 클라이언트와 서버는 모두 상대방이 끝날때까지 기다리지 않고 길이-접두사 지정 메세지를 보낸다
+- 클라이언트와 서버는 동시에 메세지를 보내고, 둘 다 연결을 종료할 수 있는데 종료되면 더 이상 메세지를 보낼 수 없게 된다
