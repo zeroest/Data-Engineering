@@ -1,7 +1,8 @@
 
 # HTTP/2를 통한 gRPC
 
-[gRPC doc - Protocol HTTP/2](https://github.com/grpc/grpc/blob/master/doc/PROTOCOL-HTTP2.md)
+[gRPC doc - Protocol HTTP/2
+](https://github.com/grpc/grpc/blob/master/doc/PROTOCOL-HTTP2.md)
 
 gRPC는 HTTP/2를 전송 프로토콜로 사용해 네트워크를 통해 메세지를 보냄  
 
@@ -14,7 +15,8 @@ HTTP/2에서 클라이언트 서버 간의 모든 통신은 단일 TCP 연결을
   이는 클라이언트와 서버가 메세지를 독립 프레임으로 분류하고 interleave한 후 다른 쪽에서 다시 조립할 수 있는 메세지 multiplexed를 지원한다  
 - 스트림: 설정된 연결에서의 양방향 바이트 흐름이며, 스트림은 하나 이상의 메세지를 전달 할 수 있다  
 
-![How gRPC semantics relate to HTTP/2](./img/how_grpc_semantics_relate_to_http2.png)
+![How gRPC semantics relate to HTTP/2
+](./img/how_grpc_semantics_relate_to_http2.png)
 
 클라이언트 어플리케이션이 gRPC 채널을 만들면 내부적으로 서버와 HTTP/2 연결을 만드는데, 채널이 생성되면 서버로 여러 개의 연격 호출을 보낼 수 있도록 재사용된다  
 이 원격 호출은 HTTP/2 스트림으로 처리되며, 원격 호출로 전송된 메세지는 HTTP/2 프레임으로 전송된다  
@@ -22,7 +24,8 @@ HTTP/2에서 클라이언트 서버 간의 모든 통신은 단일 TCP 연결을
 
 ## 요청 메세지
 
-![Sequence of message elements in request message](./img/sequence_of_message_elements_in_request_message.png)
+![Sequence of message elements in request message
+](./img/sequence_of_message_elements_in_request_message.png)
 
 요청 메세지는 `요청 헤더`, `길이-접두사 지정 메세지`, `스트림 종료 플래그` 세 가지 주요 요소로 구성된다
 
@@ -62,7 +65,8 @@ DATA (flags = END_STREAM)
 
 ## 응답 메세지
 
-![Sequence of message elements in a response message](./img/sequence_of_message_elements_in_a_response_message.png)
+![Sequence of message elements in a response message
+](./img/sequence_of_message_elements_in_a_response_message.png)
 
 응답 메세지는 `응답 헤더`, `길이-접두사 지정 메세지`, `트레일러(trailer)` 세 가지 주요 요소로 구성된다
 
@@ -158,3 +162,19 @@ Simple RPC, Server-streaming RPC, Client-streaming RPC, and Bidirectional-stream
 - 클라이언트가 헤더 프레임을 전송해 연결을 설정
 - 연결이 설정되면 클라이언트와 서버는 모두 상대방이 끝날때까지 기다리지 않고 길이-접두사 지정 메세지를 보낸다
 - 클라이언트와 서버는 동시에 메세지를 보내고, 둘 다 연결을 종료할 수 있는데 종료되면 더 이상 메세지를 보낼 수 없게 된다
+
+## gRPC 구현 아키텍처
+
+![gRPC native implementation architecture
+](./img/grpc_native_implementation_architecture.png)
+
+gRPC Core
+- 상위 레이어의 모든 네트워크 작업을 추상화해 어플리케이션 개발자가 네트워크를 통해 RPC 호출을 쉽게 수행할 수 있게 한다
+- 통신 보안용 인증 필터(authentication filter)와 통신 타임아웃을 구현하는 데드라인 필터(deadline filter) 등, 기능의 확장 제공
+
+Application Layer
+- 언어 바인딩 위에 구현된다
+- 어플리케이션 로직과 데이터 인코딩 로직을 처리
+- 개별 언어에서 제공하는 컴파일러를 사용해 데이터 인코딩 로직에 대한 소스코드 생성
+  - 데이터 인코딩에 프로토콜 버퍼를 사용하는 경우 프로토콜 버퍼 컴파일러를 사용해 소스코드를 생성
+  - 개발자는 생성된 소스코드의 메서드를 호출해 어플리케이션 로직을 작성
