@@ -2,6 +2,8 @@ package me.zeroest.grpc.ordermgt;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import io.grpc.ServerInterceptors;
+import me.zeroest.grpc.ordermgt.interceptor.OrderMgtServerInterceptor;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -15,7 +17,7 @@ public class OrderMgtServer {
         /* The port on which the server should run */
         int port = 50051;
         server = ServerBuilder.forPort(port)
-                .addService(new OrderMgtServiceImpl())
+                .addService(ServerInterceptors.intercept(new OrderMgtServiceImpl(), new OrderMgtServerInterceptor()))
                 .build()
                 .start();
         logger.info("Server started, listening on " + port);
@@ -47,6 +49,5 @@ public class OrderMgtServer {
         server.start();
         server.blockUntilShutdown();
     }
-
 
 }
