@@ -2377,16 +2377,18 @@ public final class OrderManagementOuterClass {
       "\n\013destination\030\005 \001(\t\"g\n\020CombinedShipment\022" +
       "\n\n\002id\030\001 \001(\t\022\016\n\006status\030\002 \001(\t\0227\n\nordersLis" +
       "t\030\003 \003(\0132#.me.zeroest.grpc.ecommerce.v1.O" +
-      "rder2\355\002\n\017OrderManagement\022M\n\010getOrder\022\034.g" +
-      "oogle.protobuf.StringValue\032#.me.zeroest." +
-      "grpc.ecommerce.v1.Order\022S\n\014searchOrders\022" +
-      "\034.google.protobuf.StringValue\032#.me.zeroe" +
-      "st.grpc.ecommerce.v1.Order0\001\022S\n\014updateOr" +
-      "ders\022#.me.zeroest.grpc.ecommerce.v1.Orde" +
-      "r\032\034.google.protobuf.StringValue(\001\022a\n\rpro" +
-      "cessOrders\022\034.google.protobuf.StringValue" +
-      "\032..me.zeroest.grpc.ecommerce.v1.Combined" +
-      "Shipment(\0010\001b\006proto3"
+      "rder2\274\003\n\017OrderManagement\022M\n\010addOrder\022#.m" +
+      "e.zeroest.grpc.ecommerce.v1.Order\032\034.goog" +
+      "le.protobuf.StringValue\022M\n\010getOrder\022\034.go" +
+      "ogle.protobuf.StringValue\032#.me.zeroest.g" +
+      "rpc.ecommerce.v1.Order\022S\n\014searchOrders\022\034" +
+      ".google.protobuf.StringValue\032#.me.zeroes" +
+      "t.grpc.ecommerce.v1.Order0\001\022S\n\014updateOrd" +
+      "ers\022#.me.zeroest.grpc.ecommerce.v1.Order" +
+      "\032\034.google.protobuf.StringValue(\001\022a\n\rproc" +
+      "essOrders\022\034.google.protobuf.StringValue\032" +
+      "..me.zeroest.grpc.ecommerce.v1.CombinedS" +
+      "hipment(\0010\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

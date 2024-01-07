@@ -1,8 +1,7 @@
 package me.zeroest.grpc.ordermgt;
 
 import com.google.protobuf.StringValue;
-import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
+import io.grpc.*;
 import io.grpc.stub.StreamObserver;
 import me.zeroest.grpc.ecommerce.v1.OrderManagementGrpc;
 import me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass;
@@ -23,13 +22,36 @@ public class OrderMgtClient {
                 .intercept(new OrderMgtClientInterceptor())
                 .usePlaintext()
                 .build();
-//        OrderManagementGrpc.OrderManagementBlockingStub stub = OrderManagementGrpc.newBlockingStub(channel);
+        OrderManagementGrpc.OrderManagementBlockingStub stub = OrderManagementGrpc.newBlockingStub(channel)
+                .withDeadlineAfter(1000, TimeUnit.MILLISECONDS);
         OrderManagementGrpc.OrderManagementStub asyncStub = OrderManagementGrpc.newStub(channel);
 
+        addOrder(stub);
 //        getOrder(stub);
 //        searchOrders(stub);
 //        invokeUpdateOrders(asyncStub);
-        invokeProcessOrders(asyncStub);
+//        invokeProcessOrders(asyncStub);
+    }
+
+    private static void addOrder(OrderManagementGrpc.OrderManagementBlockingStub stub) {
+        OrderManagementOuterClass.Order order = OrderManagementOuterClass.Order
+                .newBuilder()
+                .setId("101")
+                .addItems("iPhone XS").addItems("Mac Book Pro")
+                .setDestination("San Jose, CA")
+                .setPrice(2300)
+                .build();
+        try {
+            // Add Order with a deadline
+            StringValue result = stub.addOrder(order);
+            logger.info("AddOrder Response -> : " + result.getValue());
+        } catch (StatusRuntimeException e) {
+            if (e.getStatus().getCode() == Status.Code.DEADLINE_EXCEEDED) {
+                logger.info("Deadline Exceeded. : " + e.getMessage());
+            } else {
+                logger.info("Unspecified error from the service -> " + e.getMessage());
+            }
+        }
     }
 
     private static void getOrder(OrderManagementGrpc.OrderManagementBlockingStub stub) {

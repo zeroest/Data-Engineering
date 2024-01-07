@@ -14,6 +14,37 @@ public final class OrderManagementGrpc {
   public static final String SERVICE_NAME = "me.zeroest.grpc.ecommerce.v1.OrderManagement";
 
   // Static method descriptors that strictly reflect the proto.
+  private static volatile io.grpc.MethodDescriptor<me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order,
+      com.google.protobuf.StringValue> getAddOrderMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "addOrder",
+      requestType = me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order.class,
+      responseType = com.google.protobuf.StringValue.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order,
+      com.google.protobuf.StringValue> getAddOrderMethod() {
+    io.grpc.MethodDescriptor<me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order, com.google.protobuf.StringValue> getAddOrderMethod;
+    if ((getAddOrderMethod = OrderManagementGrpc.getAddOrderMethod) == null) {
+      synchronized (OrderManagementGrpc.class) {
+        if ((getAddOrderMethod = OrderManagementGrpc.getAddOrderMethod) == null) {
+          OrderManagementGrpc.getAddOrderMethod = getAddOrderMethod =
+              io.grpc.MethodDescriptor.<me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order, com.google.protobuf.StringValue>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "addOrder"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.google.protobuf.StringValue.getDefaultInstance()))
+              .setSchemaDescriptor(new OrderManagementMethodDescriptorSupplier("addOrder"))
+              .build();
+        }
+      }
+    }
+    return getAddOrderMethod;
+  }
+
   private static volatile io.grpc.MethodDescriptor<com.google.protobuf.StringValue,
       me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order> getGetOrderMethod;
 
@@ -187,6 +218,13 @@ public final class OrderManagementGrpc {
   public static abstract class OrderManagementImplBase implements io.grpc.BindableService {
 
     /**
+     */
+    public void addOrder(me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order request,
+        io.grpc.stub.StreamObserver<com.google.protobuf.StringValue> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getAddOrderMethod(), responseObserver);
+    }
+
+    /**
      * <pre>
      * 주문을 조회하기 위한 원격 메서드
      * </pre>
@@ -225,6 +263,13 @@ public final class OrderManagementGrpc {
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
+          .addMethod(
+            getAddOrderMethod(),
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
+              new MethodHandlers<
+                me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order,
+                com.google.protobuf.StringValue>(
+                  this, METHODID_ADD_ORDER)))
           .addMethod(
             getGetOrderMethod(),
             io.grpc.stub.ServerCalls.asyncUnaryCall(
@@ -269,6 +314,14 @@ public final class OrderManagementGrpc {
     protected OrderManagementStub build(
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new OrderManagementStub(channel, callOptions);
+    }
+
+    /**
+     */
+    public void addOrder(me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order request,
+        io.grpc.stub.StreamObserver<com.google.protobuf.StringValue> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getAddOrderMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
@@ -328,6 +381,13 @@ public final class OrderManagementGrpc {
     }
 
     /**
+     */
+    public com.google.protobuf.StringValue addOrder(me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getAddOrderMethod(), getCallOptions(), request);
+    }
+
+    /**
      * <pre>
      * 주문을 조회하기 위한 원격 메서드
      * </pre>
@@ -364,6 +424,14 @@ public final class OrderManagementGrpc {
     }
 
     /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.google.protobuf.StringValue> addOrder(
+        me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getAddOrderMethod(), getCallOptions()), request);
+    }
+
+    /**
      * <pre>
      * 주문을 조회하기 위한 원격 메서드
      * </pre>
@@ -375,10 +443,11 @@ public final class OrderManagementGrpc {
     }
   }
 
-  private static final int METHODID_GET_ORDER = 0;
-  private static final int METHODID_SEARCH_ORDERS = 1;
-  private static final int METHODID_UPDATE_ORDERS = 2;
-  private static final int METHODID_PROCESS_ORDERS = 3;
+  private static final int METHODID_ADD_ORDER = 0;
+  private static final int METHODID_GET_ORDER = 1;
+  private static final int METHODID_SEARCH_ORDERS = 2;
+  private static final int METHODID_UPDATE_ORDERS = 3;
+  private static final int METHODID_PROCESS_ORDERS = 4;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -397,6 +466,10 @@ public final class OrderManagementGrpc {
     @java.lang.SuppressWarnings("unchecked")
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
+        case METHODID_ADD_ORDER:
+          serviceImpl.addOrder((me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order) request,
+              (io.grpc.stub.StreamObserver<com.google.protobuf.StringValue>) responseObserver);
+          break;
         case METHODID_GET_ORDER:
           serviceImpl.getOrder((com.google.protobuf.StringValue) request,
               (io.grpc.stub.StreamObserver<me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass.Order>) responseObserver);
@@ -472,6 +545,7 @@ public final class OrderManagementGrpc {
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new OrderManagementFileDescriptorSupplier())
+              .addMethod(getAddOrderMethod())
               .addMethod(getGetOrderMethod())
               .addMethod(getSearchOrdersMethod())
               .addMethod(getUpdateOrdersMethod())

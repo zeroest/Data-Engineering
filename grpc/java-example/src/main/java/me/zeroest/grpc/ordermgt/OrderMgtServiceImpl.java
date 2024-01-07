@@ -59,6 +59,21 @@ public class OrderMgtServiceImpl extends OrderManagementGrpc.OrderManagementImpl
 
     // Unary
     @Override
+    public void addOrder(OrderManagementOuterClass.Order request, StreamObserver<StringValue> responseObserver) {
+        logger.info("Order Added - ID: " + request.getId() + ", Destination : " + request.getDestination());
+
+        int sleepingDuration = 5000;
+        logger.info("Sleeping for " + sleepingDuration + "ms");
+
+        sleep(sleepingDuration);
+        orderMap.put(request.getId(), request);
+        StringValue id = StringValue.newBuilder().setValue("100500").build();
+        responseObserver.onNext(id);
+        responseObserver.onCompleted();
+    }
+
+    // Unary
+    @Override
     public void getOrder(StringValue request, StreamObserver<OrderManagementOuterClass.Order> responseObserver) {
         OrderManagementOuterClass.Order order = orderMap.get(request.getValue());
         if (order != null) {

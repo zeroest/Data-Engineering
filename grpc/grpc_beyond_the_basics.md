@@ -24,7 +24,11 @@
 2. Call - request
 3. Call - sendMessage
 4. Call - halfClose
-5. CallListener - onHeaders
-6. CallListener - onMessage
+5. CallListener - onReady
+6. CallListener - onHeaders
+7. CallListener - onMessage
+8. CallListener - onClose
 
 ![Interceptor flow on Client](./img/interceptor_flow_client.png)
+
+## 데드라인
