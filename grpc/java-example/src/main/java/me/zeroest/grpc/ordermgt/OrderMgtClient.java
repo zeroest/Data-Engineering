@@ -6,6 +6,7 @@ import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
 import me.zeroest.grpc.ecommerce.v1.OrderManagementGrpc;
 import me.zeroest.grpc.ecommerce.v1.OrderManagementOuterClass;
+import me.zeroest.grpc.ordermgt.interceptor.client.OrderMgtClientInterceptor;
 
 import java.util.Iterator;
 import java.util.concurrent.CountDownLatch;
@@ -19,6 +20,7 @@ public class OrderMgtClient {
     public static void main(String[] args) {
         ManagedChannel channel = ManagedChannelBuilder
                 .forAddress("localhost", 50051)
+                .intercept(new OrderMgtClientInterceptor())
                 .usePlaintext()
                 .build();
 //        OrderManagementGrpc.OrderManagementBlockingStub stub = OrderManagementGrpc.newBlockingStub(channel);

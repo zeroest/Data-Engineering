@@ -1,4 +1,4 @@
-package me.zeroest.grpc.ordermgt.interceptor;
+package me.zeroest.grpc.ordermgt.interceptor.server;
 
 import io.grpc.Metadata;
 import io.grpc.ServerCall;

@@ -3,7 +3,7 @@ package me.zeroest.grpc.ordermgt;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.ServerInterceptors;
-import me.zeroest.grpc.ordermgt.interceptor.OrderMgtServerInterceptor;
+import me.zeroest.grpc.ordermgt.interceptor.server.OrderMgtServerInterceptor;
 
 import java.io.IOException;
 import java.util.logging.Logger;
