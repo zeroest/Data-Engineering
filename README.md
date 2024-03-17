@@ -35,11 +35,11 @@ Data engineers primarily focus on
 
 ### 5 Main Components Of Data Streaming Architecture
 
-A. Stream Processing Engine
-B. Message Broker
-C. Data Storage
-D. Data Ingestion Layer
-E. Data Visualization & Reporting Tools
+A. Stream Processing Engine  
+B. Message Broker  
+C. Data Storage  
+D. Data Ingestion Layer  
+E. Data Visualization & Reporting Tools  
 
 ### Architecture
 
@@ -48,3 +48,5 @@ Lambda architecture
 
 Kappa architecture, Delta architecture
 - speed, serving layer
+
+[[IT용어](데이터 흐름) 기간계, 정보계, ODS(Operational Data Store), EDW(Enterprise Data Warehouse), Data Mart(DM), OLAP(On line Analysis Process), ETL(Extract Transform Load),ELT(Extract Load Transform)](https://spidyweb.tistory.com/218)

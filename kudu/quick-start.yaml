@@ -1,0 +1,88 @@
+version: '3'
+
+services:
+  kudu-master-1:
+    image: apache/kudu:1.15
+    networks:
+      - bdata
+    ports:
+      - "7051"
+      - "8051:8051"
+    command: [ "master" ]
+    environment:
+      - KUDU_MASTERS=kudu-master-1,kudu-master-2,kudu-master-3
+
+  kudu-master-2:
+    image: apache/kudu:1.15
+    networks:
+      - bdata
+    ports:
+      - "7051"
+      - "8052:8051"
+    command: [ "master" ]
+    environment:
+      - KUDU_MASTERS=kudu-master-1,kudu-master-2,kudu-master-3
+
+  kudu-master-3:
+    image: apache/kudu:1.15
+    networks:
+      - bdata
+    ports:
+      - "7051"
+      - "8053:8051"
+    command: [ "master" ]
+    environment:
+      - KUDU_MASTERS=kudu-master-1,kudu-master-2,kudu-master-3
+
+  kudu-tserver:
+    image: apache/kudu:1.15
+    networks:
+      - bdata
+    depends_on:
+      - kudu-master-1
+      - kudu-master-2
+      - kudu-master-3
+    ports:
+      - "7050"
+      - "8050"
+    command: [ "tserver" ]
+    environment:
+      - KUDU_MASTERS=kudu-master-1,kudu-master-2,kudu-master-3
+    deploy:
+      replicas: 3
+
+  impala:
+    image: apache/kudu:impala-latest
+#    hostname: impala
+    networks:
+      - bdata
+    ports:
+      - "21000:21000"
+      - "21050:21050"
+      - "25000:25000"
+      - "25010:25010"
+      - "25020:25020"
+    command: [ "impala" ]
+    environment:
+      - KUDU_MASTERS=kudu-master-1,kudu-master-2,kudu-master-3
+    depends_on:
+      - kudu-master-1
+      - kudu-master-2
+      - kudu-master-3
+
+  hue:
+    image: gethue/hue:latest
+    hostname: hue
+    command: [ "./startup.sh" ]
+    volumes:
+      - ./conf:/usr/share/hue/desktop/conf
+    networks:
+      - bdata
+    ports:
+      - "8888:8888"
+    depends_on:
+      - impala
+
+networks:
+  bdata:
+#    external: true
