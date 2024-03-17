@@ -54,4 +54,10 @@ gRPC 데드라인과 관련해 클라이언트, 서버 모두 RPC의 성공 여�
 그래서 서비스 어플리케이션은 현재 RPC가 여전히 유효한지 아닌지를 확인해야 한다  
 서버에서 클라이언트가 RPC를 호출할 때 지정된 데드라인이 초과됐는지 감지할 수 있다  
 
+```
+Context.current().getDeadline().isExpired()
+```
+
 [gRPC examples DeadlineClient](https://github.com/grpc/grpc-java/blob/master/examples/src/main/java/io/grpc/examples/deadline/DeadlineClient.java)
+
+## [취소 처리](https://grpc.io/docs/guides/cancellation/)
